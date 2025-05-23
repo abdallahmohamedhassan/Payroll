@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
+using Payroll.Models;
 
 namespace Payroll.DataAccess.Data
 {
@@ -13,5 +14,8 @@ namespace Payroll.DataAccess.Data
         {
 
         }
+        public DbSet<Employee> Employees { get; set; }
+        public DbSet<Department> Departments { get; set; }
+        public DbSet<Salary> Salaries { get; set; }
     }
 }

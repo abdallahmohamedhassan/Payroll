@@ -15,4 +15,8 @@
     </PackageReference>
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\Payroll.Models\Payroll.Models.csproj" />
+  </ItemGroup>
+
 </Project>
