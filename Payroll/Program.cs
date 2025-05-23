@@ -1,7 +1,8 @@
-using Bulky.DataAccess.Repository;
-using Bulky.DataAccess.Repository.IRepository;
+
 using Microsoft.EntityFrameworkCore;
 using Payroll.DataAccess.Data;
+using Payroll.DataAccess.Repository;
+using Payroll.DataAccess.Repository.IRepository;
 
 var builder = WebApplication.CreateBuilder(args);
 

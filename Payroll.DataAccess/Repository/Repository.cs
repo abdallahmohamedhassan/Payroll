@@ -8,7 +8,8 @@ using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Bulky.DataAccess.Repository
+namespace Payroll.DataAccess.Repository
+
 {
     public class Repository<T> : IRepository<T> where T : class
     {private readonly ApplicationDbContext _context;
