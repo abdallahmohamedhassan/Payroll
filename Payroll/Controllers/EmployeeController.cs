@@ -22,97 +22,77 @@ namespace Payroll.Controllers
             _salaryService = salaryService;
         }
 
+        private async Task PopulateDropdownListsAsync(EmployeeVM employeeVM)
+        {
+            var departments = await _departmentService.GetAllAsync();
+            var salary = await _salaryService.GetAllAsync();
+
+            employeeVM.DepartmentList = departments.Select(u => new SelectListItem
+            {
+                Text = u.DepartmentName,
+                Value = u.Id.ToString()
+            }).ToList();
+
+            employeeVM.SalaryList = salary.Select(u => new SelectListItem
+            {
+                Text = u.GradeName,
+                Value = u.Id.ToString()
+            }).ToList();
+        }
 
         public async Task<IActionResult> Index()
         {
           var employees=  await _employeeService.GetAllAsync();
             return View(employees);
         }
-        public async Task<IActionResult> UpsertAsync(int? id)
+        public async Task<IActionResult> Upsert(int? id)
         {
-            var departments = await _departmentService.GetAllAsync();
-            var salary = await _salaryService.GetAllAsync();
-
-
-            EmployeeVM employeeVM = new()
-            {
-                DepartmentList =  departments.Select(u => new SelectListItem
-                {
-                    Text = u.DepartmentName,  
-                    Value = u.Id.ToString()
-                }).ToList(),
-                SalaryList = salary.Select(u => new SelectListItem
-                {
-                    Text = u.GradeName,  
-                    Value = u.Id.ToString()
-                }).ToList(),
-                Employee = new Employee()
-            };
+            var employeeVM = new EmployeeVM { Employee = new Employee() };
+            await PopulateDropdownListsAsync(employeeVM);
             if (id == null || id == 0)
             {
                 return View(employeeVM);
             }
-            else
-            {
-                employeeVM.Employee = await _employeeService.GetByIdAsync(id.Value);
-                return View(employeeVM);
-
-            }
+            employeeVM.Employee = await _employeeService.GetByIdAsync(id.Value);
+            return View(employeeVM);
         }
-        [HttpPost]
-        public async Task<IActionResult> UpsertAsync(EmployeeVM obj)
-        {
 
+        [HttpPost]
+        public async Task<IActionResult> Upsert(EmployeeVM obj)
+        {
             if (ModelState.IsValid)
             {
-               
                 if (obj.Employee.Id == 0)
-                {
                     await _employeeService.CreateAsync(obj.Employee);
-                }
                 else
-                {
                     await _employeeService.UpdateAsync(obj.Employee);
 
-                }
-                TempData["success"] = "Product Created Successfully";
-                return RedirectToAction("Index");
+                TempData["success"] = "Employee saved successfully";
+                return RedirectToAction(nameof(Index));
             }
-            else
 
-            {
-                var departments = await _departmentService.GetAllAsync();
-                var salary = await _salaryService.GetAllAsync();
-              obj.  DepartmentList = departments.Select(u => new SelectListItem
-                {
-                    Text = u.DepartmentName,
-                    Value = u.Id.ToString()
-                }).ToList();
-                obj.SalaryList = salary.Select(u => new SelectListItem
-                {
-                    Text = u.GradeName,
-                    Value = u.Id.ToString()
-                }).ToList();
-                return View(obj);
-
-            }
+            await PopulateDropdownListsAsync(obj);
+            return View(obj);
         }
+
         [HttpDelete]
         public async Task<IActionResult> DeleteAsync(int? id)
         {
+            if (!id.HasValue)
+            {
+                return Json(new { success = false, message = "Invalid employee id" });
+            }
+
             var employeeToBeDeleted = await _employeeService.GetByIdAsync(id.Value);
             if (employeeToBeDeleted == null)
             {
-                return Json(new { success = false, message = "Error while deleting" });
+                return Json(new { success = false, message = "Employee not found" });
             }
 
-
-
-
             await _employeeService.DeleteAsync(employeeToBeDeleted);
-            
 
             return Json(new { success = true, message = "Delete Successful" });
         }
+
     }
 }
