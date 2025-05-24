@@ -1,4 +1,6 @@
-﻿using Payroll.Application.Interfaces;
+﻿using Microsoft.EntityFrameworkCore;
+using Payroll.Application.Interfaces;
+using Payroll.DataAccess.Repository;
 using Payroll.DataAccess.Repository.IRepository;
 using Payroll.Models;
 using System;
@@ -18,30 +20,42 @@ namespace Payroll.Application.Services
             _unitOfWork = unitOfWork;
         }
 
-        public Task<Employee> CreateAsync(Employee employee)
+        public async Task<Employee> CreateAsync(Employee employee)
         {
-            throw new NotImplementedException();
+            await _unitOfWork.EmployeeRepository.AddAsync(employee);
+            await _unitOfWork.Save();
+            return employee;
         }
 
-        public Task<bool> DeleteAsync(int id)
+        public async Task UpdateAsync(Employee employee)
         {
-            throw new NotImplementedException();
+         
+
+            await _unitOfWork.EmployeeRepository.UpdateAsync(employee);
+
+                await _unitOfWork.Save();
         }
 
-        public Task<IEnumerable<Employee>> GetAllAsync()
+        public async Task DeleteAsync(Employee employee)
         {
-            List<Employee> employee = await _unitOfWork.EmployeeRepository.getallas(includeProperties: "Salary,Department").ToList();
-            return (employee);
+            
+
+             await _unitOfWork.EmployeeRepository.RemoveAsync(employee);
+            await _unitOfWork.Save();
         }
 
-        public Task<Employee> GetByIdAsync(int id)
+        public async Task<IEnumerable<Employee>> GetAllAsync()
         {
-            throw new NotImplementedException();
+            List<Employee> employee = (await _unitOfWork.EmployeeRepository.GetAllAsync(includeProperties: "Salary,Department")).ToList();
+            return employee;
         }
 
-        public Task<bool> UpdateAsync(Employee employee)
+        public async Task<Employee> GetByIdAsync(int id)
         {
-            throw new NotImplementedException();
+            var employee = await _unitOfWork.EmployeeRepository.GetAsync(u => u.Id == id);
+            return employee;
         }
+
+     
     }
 }

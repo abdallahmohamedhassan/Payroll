@@ -13,7 +13,7 @@ namespace Payroll.Application.Interfaces
         Task<IEnumerable<Employee>> GetAllAsync();
         Task<Employee> GetByIdAsync(int id);
         Task<Employee> CreateAsync(Employee employee);
-        Task<bool> UpdateAsync(Employee employee);
-        Task<bool> DeleteAsync(int id);
+        Task UpdateAsync(Employee employee);   
+        Task DeleteAsync(Employee employee);
     }
 }

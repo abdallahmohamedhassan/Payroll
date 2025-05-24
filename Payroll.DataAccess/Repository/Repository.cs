@@ -12,54 +12,67 @@ namespace Payroll.DataAccess.Repository
 
 {
     public class Repository<T> : IRepository<T> where T : class
-    {private readonly ApplicationDbContext _context;
+    {
+        private readonly ApplicationDbContext _context;
         internal DbSet<T> DbSet;
+
         public Repository(ApplicationDbContext context)
         {
             _context = context;
-            this.DbSet = _context.Set<T>();
-        }
-        public void Add(T entity)
-        {
-            DbSet.Add(entity);
+            DbSet = _context.Set<T>();
         }
 
-        public T Get(Expression<Func<T, bool>> filter, string? includeProperties = null)
+        public async Task AddAsync(T entity)
+        {
+            await DbSet.AddAsync(entity);
+        }
+
+        public async Task<T?> GetAsync(Expression<Func<T, bool>> filter, string? includeProperties = null)
+        {
+            IQueryable<T> query = DbSet.Where(filter);
+
+            if (!string.IsNullOrWhiteSpace(includeProperties))
+            {
+                foreach (var property in includeProperties.Split(',', StringSplitOptions.RemoveEmptyEntries))
+                {
+                    query = query.Include(property.Trim());
+                }
+            }
+
+            return await query.FirstOrDefaultAsync();
+        }
+
+        public async Task<IEnumerable<T>> GetAllAsync(string? includeProperties = null)
         {
             IQueryable<T> query = DbSet;
-            query=query.Where(filter);
-            if (!string.IsNullOrEmpty(includeProperties))
+
+            if (!string.IsNullOrWhiteSpace(includeProperties))
             {
-                foreach (var property in includeProperties.Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries))
-                { query = query.Include(property); }
+                foreach (var property in includeProperties.Split(',', StringSplitOptions.RemoveEmptyEntries))
+                {
+                    query = query.Include(property.Trim());
+                }
             }
-            return query.FirstOrDefault();
+
+            return await query.ToListAsync();
         }
 
-        public IEnumerable<T> GetAll(string? includeProperties =null)
-        {
-            IQueryable<T> query = DbSet;
-            if(!string.IsNullOrEmpty(includeProperties))
-            {
-                foreach(var property in includeProperties.Split(new char[] {','},StringSplitOptions.RemoveEmptyEntries))
-                { query = query.Include(property); }
-            }
-            return query.ToList();
-
-        }
-
-        public void Remove(T entity)
+        public Task RemoveAsync(T entity)
         {
             DbSet.Remove(entity);
+            return Task.CompletedTask;
         }
 
-        public void RemoveRange(IEnumerable<T> entities)
+        public Task RemoveRangeAsync(IEnumerable<T> entities)
         {
             DbSet.RemoveRange(entities);
+            return Task.CompletedTask;
         }
-        public void Update(T entity)
+
+        public Task UpdateAsync(T entity)
         {
             DbSet.Update(entity);
+            return Task.CompletedTask;
         }
 
     }
