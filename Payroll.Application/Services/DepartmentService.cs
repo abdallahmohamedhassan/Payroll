@@ -33,11 +33,9 @@ namespace Payroll.Application.Services
             await _unitOfWork.Save();
         }
 
-        public async Task DeleteAsync(int id)
+        public async Task DeleteAsync(Department department)
         {
-            var department = await _unitOfWork.DepartmentRepository.GetAsync(u => u.Id == id);
-            if (department is null)
-                throw new KeyNotFoundException("Department not found");
+
 
             await _unitOfWork.DepartmentRepository.RemoveAsync(department);
             await _unitOfWork.Save();

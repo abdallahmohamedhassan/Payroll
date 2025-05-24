@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -21,6 +22,7 @@ namespace Payroll.Models
         [Range(0, double.MaxValue, ErrorMessage = "Base salary must be a non-negative number.")]
         public decimal BaseSalary { get; set; }
         [JsonIgnore]
+        [ValidateNever]
 
         public ICollection<Employee> Employees { get; set; }
 

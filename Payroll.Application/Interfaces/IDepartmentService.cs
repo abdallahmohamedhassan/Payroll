@@ -13,6 +13,6 @@ namespace Payroll.Application.Interfaces
         Task<Department> GetByIdAsync(int id);
         Task<Department> CreateAsync(Department department);
         Task UpdateAsync(Department department);  
-        Task DeleteAsync(int id);
+        Task DeleteAsync(Department department);
     }
 }

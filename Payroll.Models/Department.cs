@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -17,6 +18,7 @@ namespace Payroll.Models
         [StringLength(100, ErrorMessage = "Department name cannot exceed 100 characters.")]
         public string DepartmentName { get; set; }
         [JsonIgnore]
+        [ValidateNever]
 
         public ICollection<Employee> Employees { get; set; }
 
