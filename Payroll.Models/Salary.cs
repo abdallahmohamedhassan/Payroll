@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
+using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 
 namespace Payroll.Models
@@ -19,6 +20,8 @@ namespace Payroll.Models
         [Required(ErrorMessage = "Base salary is required.")]
         [Range(0, double.MaxValue, ErrorMessage = "Base salary must be a non-negative number.")]
         public decimal BaseSalary { get; set; }
+        [JsonIgnore]
+
         public ICollection<Employee> Employees { get; set; }
 
     }

@@ -40,14 +40,18 @@ namespace Payroll.Controllers
             }).ToList();
         }
 
-        public async Task<IActionResult> Index()
+        public IActionResult Index()
         {
-          var employees=  await _employeeService.GetAllAsync();
-            return View(employees);
+            return View();
         }
         public async Task<IActionResult> Upsert(int? id)
         {
-            var employeeVM = new EmployeeVM { Employee = new Employee() };
+            var employeeVM = new EmployeeVM { Employee = new Employee
+            {
+                DateOfBirth = DateTime.Today,
+                DateOfHire = DateTime.Today
+            }
+            };
             await PopulateDropdownListsAsync(employeeVM);
             if (id == null || id == 0)
             {
@@ -93,6 +97,13 @@ namespace Payroll.Controllers
 
             return Json(new { success = true, message = "Delete Successful" });
         }
+        [HttpGet]
+        public async Task<IActionResult> GetAll()
+        {
+var employees = await _employeeService.GetAllAsync();
 
+            return Json(new { data = employees });
+
+        }
     }
 }

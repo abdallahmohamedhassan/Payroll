@@ -11,16 +11,21 @@ namespace Payroll.DataAccess.Repository
     public class UnitOfWork : IUnitOfWork
     {
         ApplicationDbContext _db;
-     public   ISalaryRepository _salaryRepository { get; private set; }
-        public IEmployeeRepository _employeeRepository { get; private set; }
-        public IDepartmentRepository _departmentRepository { get; private set; }
+    
+
+        public IDepartmentRepository DepartmentRepository { get; private set; }
+
+        public IEmployeeRepository EmployeeRepository { get; private set; }
+
+        public ISalaryRepository SalaryRepository { get; private set; }
+
         public UnitOfWork(ApplicationDbContext db)
         {
             _db = db;
 
-            _salaryRepository= new SalaryRepository(_db);
-            _employeeRepository= new EmployeeRepository(_db);
-            _departmentRepository=new DepartmentRepository(_db);
+            SalaryRepository = new SalaryRepository(_db);
+            EmployeeRepository = new EmployeeRepository(_db);
+            DepartmentRepository = new DepartmentRepository(_db);
 
          }
         public async Task Save()
