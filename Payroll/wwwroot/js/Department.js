@@ -8,6 +8,7 @@ function loadDataTable() {
         "scrollX": true, // enable horizontal scroll for better layout control
         "columns": [
             { data: 'departmentName', title: "Department Name", width: "200px" },
+            { data: 'incentivePercentage', title: "incentive Percentage", width: "200px" },
           
             {
                 data: 'id',
