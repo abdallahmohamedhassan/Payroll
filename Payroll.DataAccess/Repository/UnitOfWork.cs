@@ -18,6 +18,7 @@ namespace Payroll.DataAccess.Repository
         public IEmployeeRepository EmployeeRepository { get; private set; }
 
         public ISalaryRepository SalaryRepository { get; private set; }
+        public IExperienceIncentiveRepository ExperienceIncentiveRepository { get; private set; }
 
         public UnitOfWork(ApplicationDbContext db)
         {
@@ -26,6 +27,8 @@ namespace Payroll.DataAccess.Repository
             SalaryRepository = new SalaryRepository(_db);
             EmployeeRepository = new EmployeeRepository(_db);
             DepartmentRepository = new DepartmentRepository(_db);
+            ExperienceIncentiveRepository = new ExperienceIncentiveRepository(_db);
+
 
          }
         public async Task Save()

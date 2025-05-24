@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Payroll.DataAccess.Data;
 
@@ -11,9 +12,11 @@ using Payroll.DataAccess.Data;
 namespace Payroll.DataAccess.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250524202814_departmentw")]
+    partial class departmentw
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -88,28 +91,6 @@ namespace Payroll.DataAccess.Migrations
                     b.HasIndex("SalaryId");
 
                     b.ToTable("Employees");
-                });
-
-            modelBuilder.Entity("Payroll.Models.ExperienceIncentive", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<int>("GreaterThanYear")
-                        .HasColumnType("int");
-
-                    b.Property<decimal>("IncentivePercentage")
-                        .HasColumnType("decimal(18,2)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("GreaterThanYear")
-                        .IsUnique();
-
-                    b.ToTable("ExperienceIncentives");
                 });
 
             modelBuilder.Entity("Payroll.Models.Salary", b =>

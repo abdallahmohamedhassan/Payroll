@@ -16,6 +16,7 @@ builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 builder.Services.AddScoped<IEmployeeService, EmployeeService>();
 builder.Services.AddScoped<ISalaryService, SalaryService>();
 builder.Services.AddScoped<IDepartmentService, DepartmentService>();
+builder.Services.AddScoped<IExperienceIncentiveService, ExperienceIncentiveService>();
 
 var app = builder.Build();
 
