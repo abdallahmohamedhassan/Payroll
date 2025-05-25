@@ -44,7 +44,7 @@ namespace Payroll.DataAccess.Repository
 
         public async Task<IEnumerable<T>> GetAllAsync(string? includeProperties = null)
         {
-            IQueryable<T> query = DbSet;
+            IQueryable<T> query = DbSet.AsNoTracking();
 
             if (!string.IsNullOrWhiteSpace(includeProperties))
             {
