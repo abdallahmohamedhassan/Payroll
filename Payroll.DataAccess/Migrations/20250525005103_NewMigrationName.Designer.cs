@@ -12,8 +12,8 @@ using Payroll.DataAccess.Data;
 namespace Payroll.DataAccess.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20250523191250_tablea")]
-    partial class tablea
+    [Migration("20250525005103_NewMigrationName")]
+    partial class NewMigrationName
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -24,6 +24,25 @@ namespace Payroll.DataAccess.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
+
+            modelBuilder.Entity("Payroll.Models.Attendnce", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("GreaterThanDays")
+                        .HasColumnType("int");
+
+                    b.Property<decimal>("Percentage")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Attendnce");
+                });
 
             modelBuilder.Entity("Payroll.Models.Department", b =>
                 {
@@ -37,6 +56,9 @@ namespace Payroll.DataAccess.Migrations
                         .IsRequired()
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)");
+
+                    b.Property<decimal>("IncentivePercentage")
+                        .HasColumnType("decimal(18,2)");
 
                     b.HasKey("Id");
 
@@ -88,6 +110,28 @@ namespace Payroll.DataAccess.Migrations
                     b.HasIndex("SalaryId");
 
                     b.ToTable("Employees");
+                });
+
+            modelBuilder.Entity("Payroll.Models.ExperienceIncentive", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("GreaterThanYear")
+                        .HasColumnType("int");
+
+                    b.Property<decimal>("IncentivePercentage")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("GreaterThanYear")
+                        .IsUnique();
+
+                    b.ToTable("ExperienceIncentives");
                 });
 
             modelBuilder.Entity("Payroll.Models.Salary", b =>

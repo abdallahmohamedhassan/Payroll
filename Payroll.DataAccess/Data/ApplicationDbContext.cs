@@ -18,5 +18,6 @@ namespace Payroll.DataAccess.Data
         public DbSet<Department> Departments { get; set; }
         public DbSet<Salary> Salaries { get; set; }
         public DbSet<ExperienceIncentive> ExperienceIncentives { get; set; }
+        public DbSet<Attendnce> Attendnce { get; set; }
     }
 }

@@ -6,22 +6,51 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace Payroll.DataAccess.Migrations
 {
     /// <inheritdoc />
-    public partial class tablea : Migration
+    public partial class NewMigrationName : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.CreateTable(
+                name: "Attendnce",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    GreaterThanDays = table.Column<int>(type: "int", nullable: false),
+                    Percentage = table.Column<decimal>(type: "decimal(18,2)", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Attendnce", x => x.Id);
+                });
+
             migrationBuilder.CreateTable(
                 name: "Departments",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    DepartmentName = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false)
+                    DepartmentName = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
+                    IncentivePercentage = table.Column<decimal>(type: "decimal(18,2)", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Departments", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "ExperienceIncentives",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    GreaterThanYear = table.Column<int>(type: "int", nullable: false),
+                    IncentivePercentage = table.Column<decimal>(type: "decimal(18,2)", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_ExperienceIncentives", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -79,13 +108,25 @@ namespace Payroll.DataAccess.Migrations
                 name: "IX_Employees_SalaryId",
                 table: "Employees",
                 column: "SalaryId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_ExperienceIncentives_GreaterThanYear",
+                table: "ExperienceIncentives",
+                column: "GreaterThanYear",
+                unique: true);
         }
 
         /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
+                name: "Attendnce");
+
+            migrationBuilder.DropTable(
                 name: "Employees");
+
+            migrationBuilder.DropTable(
+                name: "ExperienceIncentives");
 
             migrationBuilder.DropTable(
                 name: "Departments");

@@ -5,15 +5,15 @@
 namespace Payroll.DataAccess.Migrations
 {
     /// <inheritdoc />
-    public partial class departmentwasdfsdd : Migration
+    public partial class NewMigrationNamenew : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateIndex(
-                name: "IX_ExperienceIncentives_GreaterThanYear",
-                table: "ExperienceIncentives",
-                column: "GreaterThanYear",
+                name: "IX_Attendnce_GreaterThanDays",
+                table: "Attendnce",
+                column: "GreaterThanDays",
                 unique: true);
         }
 
@@ -21,8 +21,8 @@ namespace Payroll.DataAccess.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropIndex(
-                name: "IX_ExperienceIncentives_GreaterThanYear",
-                table: "ExperienceIncentives");
+                name: "IX_Attendnce_GreaterThanDays",
+                table: "Attendnce");
         }
     }
 }

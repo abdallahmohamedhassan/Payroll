@@ -22,6 +22,28 @@ namespace Payroll.DataAccess.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
+            modelBuilder.Entity("Payroll.Models.Attendnce", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("GreaterThanDays")
+                        .HasColumnType("int");
+
+                    b.Property<decimal>("Percentage")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("GreaterThanDays")
+                        .IsUnique();
+
+                    b.ToTable("Attendnce");
+                });
+
             modelBuilder.Entity("Payroll.Models.Department", b =>
                 {
                     b.Property<int>("Id")

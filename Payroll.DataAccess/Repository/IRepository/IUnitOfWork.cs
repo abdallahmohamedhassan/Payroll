@@ -12,6 +12,7 @@ namespace Payroll.DataAccess.Repository.IRepository
         IEmployeeRepository EmployeeRepository { get; }
         ISalaryRepository SalaryRepository { get; }
         IExperienceIncentiveRepository ExperienceIncentiveRepository { get; }
+        IAttendenceRepository AttendenceRepository { get; }
         Task Save();
     }
 }
