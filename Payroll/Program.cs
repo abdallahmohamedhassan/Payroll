@@ -18,6 +18,7 @@ builder.Services.AddScoped<ISalaryService, SalaryService>();
 builder.Services.AddScoped<IDepartmentService, DepartmentService>();
 builder.Services.AddScoped<IExperienceIncentiveService, ExperienceIncentiveService>();
 builder.Services.AddScoped<IAttendenceService, AttendenceService>();
+builder.Services.AddScoped<IReportService, ReportService>();
 
 var app = builder.Build();
 

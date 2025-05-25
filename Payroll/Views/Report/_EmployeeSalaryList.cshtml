@@ -1,0 +1,36 @@
+﻿@model EmployeeSalaryVM
+<div class="table-responsive">
+
+<table class="table table-bordered table-striped">
+    <thead>
+        <tr>
+            <th>Full Name</th>
+            <th>Email</th>
+            <th>Phone</th>
+            <th>Years of Experience</th>
+            <th>Department</th>
+            <th>Grade</th>
+            <th>Base Salary</th>
+            <th>Department Incentive</th>
+            <th>Experience Incentive</th>
+            <th>Attendance Incentive</th>
+            <th>Total Salary</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>@Model.FullName</td>
+            <td>@Model.Email</td>
+            <td>@Model.Phone</td>
+            <td>@Model.YearOfExperience</td>
+            <td>@Model.DepartmentName</td>
+            <td>@Model.GradeName</td>
+            <td>@Model.BaseSalary.ToString("C")</td>
+            <td>@Model.DepartmenIncentive.ToString("C")</td>
+            <td>@Model.ExperienceIncentive.ToString("C")</td>
+            <td>@Model.AttendenceIncentive.ToString("C")</td>
+            <td><strong>@Model.ToTalSalary.ToString("C")</strong></td>
+        </tr>
+    </tbody>
+</table>
+</div>

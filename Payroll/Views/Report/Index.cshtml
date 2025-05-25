@@ -1,0 +1,77 @@
+﻿@model ReportVM
+
+<div class="card shadow border-0 mt-4">
+    <div class="card-header bg-secondary bg-gradient ml-0 py-3">
+        <div class="row">
+            <div class="col-12 text-center">
+                <h2 class="text-black py-2">Employee Salary Report</h2>
+            </div>
+        </div>
+    </div>
+    <div class="card-body p-4">
+        <form id="salaryForm" class="row" enctype="multipart/form-data">
+            <div class="form-group row py-2">
+                <div class="col-md-4">
+                    <div class="form-floating">
+                        <select asp-for="EmployeeId" asp-items="@Model.EmployeeList" class="form-select border-0 shadow" id="EmployeeId">
+                            <option disabled selected>--Select Employee--</option>
+                        </select>
+                        <label asp-for="EmployeeId" class="ms-2"></label>
+                    </div>
+                </div>
+
+                <div class="col-md-4">
+                    <div class="form-floating">
+                        <select asp-for="AttendenceId" asp-items="@Model.AttendenceList" class="form-select border-0 shadow" id="AttendenceId">
+                            <option disabled selected>--Select Attendence--</option>
+                        </select>
+                        <label asp-for="AttendenceId" class="ms-2"></label>
+                    </div>
+                </div>
+
+                <div class="col-md-4 d-flex align-items-end">
+                    <button type="button" class="btn btn-primary w-100" id="calculateBtn">Calculate</button>
+                </div>
+            </div>
+        </form>
+        <div id="salaryResultContainer" class="mt-4"></div>
+
+    </div>
+</div>
+
+
+
+
+@section Scripts {
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+    <script>
+        $(document).ready(function () {
+            $("#calculateBtn").click(function () {
+                var employeeId = $("#EmployeeId").val();
+                var attendenceId = $("#AttendenceId").val();
+                 if (!employeeId || !attendenceId) {
+            toastr.warning("Please select both employee and attendance.");
+            return;
+        }
+                $.ajax({
+                    url: '/Report/CalculateSalary',
+                    type: 'POST',
+                    data: {
+                        employeeId: employeeId,
+                        attendenceId: attendenceId
+                    },
+                    success: function (result) {
+                        $("#salaryResultContainer").html(result);
+                    },
+                    error: function () {
+                        alert("An error occurred while calculating salary.");
+                    }
+                });
+            });
+        });
+    </script>
+    @{
+        <partial name="_ValidationScriptsPartial" />
+    }
+}

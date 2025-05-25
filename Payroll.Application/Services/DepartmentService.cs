@@ -4,14 +4,14 @@ using Payroll.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace Payroll.Application.Services
 {
-    public  class DepartmentService:IDepartmentService
+    public class DepartmentService : IDepartmentService
     {
         private readonly IUnitOfWork _unitOfWork;
+
         public DepartmentService(IUnitOfWork unitOfWork)
         {
             _unitOfWork = unitOfWork;
@@ -19,39 +19,73 @@ namespace Payroll.Application.Services
 
         public async Task<Department> CreateAsync(Department department)
         {
-            await _unitOfWork.DepartmentRepository.AddAsync(department);
-            await _unitOfWork.Save();
-            return department;
+            try
+            {
+                await _unitOfWork.DepartmentRepository.AddAsync(department);
+                await _unitOfWork.Save();
+                return department;
+            }
+            catch (Exception ex)
+            {
+                // Log exception here
+                throw;
+            }
         }
 
         public async Task UpdateAsync(Department department)
         {
-
-
-            await _unitOfWork.DepartmentRepository.UpdateAsync(department);
-
-            await _unitOfWork.Save();
+            try
+            {
+                await _unitOfWork.DepartmentRepository.UpdateAsync(department);
+                await _unitOfWork.Save();
+            }
+            catch (Exception ex)
+            {
+                // Log exception here
+                throw;
+            }
         }
 
         public async Task DeleteAsync(Department department)
         {
-
-
-            await _unitOfWork.DepartmentRepository.RemoveAsync(department);
-            await _unitOfWork.Save();
+            try
+            {
+                await _unitOfWork.DepartmentRepository.RemoveAsync(department);
+                await _unitOfWork.Save();
+            }
+            catch (Exception ex)
+            {
+                // Log exception here
+                throw;
+            }
         }
 
         public async Task<IEnumerable<Department>> GetAllAsync()
         {
-            List<Department> department = (await _unitOfWork.DepartmentRepository.GetAllAsync()).ToList();
-            return department;
+            try
+            {
+                List<Department> department = (await _unitOfWork.DepartmentRepository.GetAllAsync()).ToList();
+                return department;
+            }
+            catch (Exception ex)
+            {
+                // Log exception here
+                throw;
+            }
         }
 
         public async Task<Department> GetByIdAsync(int id)
         {
-            var department = await _unitOfWork.DepartmentRepository.GetAsync(u => u.Id == id);
-            return department;
+            try
+            {
+                var department = await _unitOfWork.DepartmentRepository.GetAsync(u => u.Id == id);
+                return department;
+            }
+            catch (Exception ex)
+            {
+                // Log exception here
+                throw;
+            }
         }
-
     }
 }
